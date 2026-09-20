@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>PER Q2GK · Bodyscan-Skript</title>
+<style>
+:root{
+  --petrol:#0f4b53;
+  --petrol2:#0e6a65;
+  --coral:#e8674f;
+  --cream:#fff7ec;
+  --bg:#f3f6f7;
+  --paper:#ffffff;
+  --ink:#18303a;
+  --muted:#667982;
+  --line:#cfdadd;
+  --soft:#eef5f5;
+  --good:#eaf7ef;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  line-height:1.5;
+}
+main{max-width:1120px;margin:auto;padding:18px 14px 60px}
+.toplabel{
+  font-weight:900;
+  letter-spacing:.12em;
+  color:var(--petrol);
+  font-size:.86rem;
+  margin:3px 2px 12px;
+}
+.page{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:18px;
+  margin:0 0 18px;
+  padding:22px;
+  box-shadow:0 4px 16px rgba(31,55,62,.06);
+}
+.hero{
+  background:var(--petrol);
+  color:#fff;
+  border-radius:16px;
+  padding:22px;
+  margin-bottom:16px;
+}
+.hero small{
+  display:block;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  font-weight:800;
+  color:#f0a58f;
+  margin-bottom:7px;
+}
+.hero h1{
+  margin:0;
+  font-size:clamp(1.7rem,4vw,2.6rem);
+  line-height:1.08;
+}
+.hero p{margin:.55rem 0 0;color:#d8edef}
+h2{
+  color:var(--petrol);
+  font-size:1.28rem;
+  margin:22px 0 10px;
+  padding-bottom:7px;
+  border-bottom:3px solid var(--petrol);
+}
+.section-title{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.num{
+  width:30px;height:30px;border-radius:50%;
+  display:inline-grid;place-items:center;
+  color:white;background:var(--coral);
+  font-weight:900;flex:0 0 auto;
+}
+.meta{
+  display:grid;
+  grid-template-columns:1fr 2fr 1fr;
+  gap:12px;
+  margin:12px 0 16px;
+}
+label{font-weight:750}
+input[type=text],input[type=number],select,textarea{
+  width:100%;
+  min-height:44px;
+  border:1.5px solid #c8d3d7;
+  border-radius:10px;
+  padding:10px 11px;
+  font:inherit;
+  color:var(--ink);
+  background:#fff;
+  outline:none;
+}
+textarea{min-height:105px;resize:vertical}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--petrol2);
+  box-shadow:0 0 0 3px rgba(14,106,101,.11);
+}
+.task{
+  background:#fde9e2;
+  border-left:5px solid var(--coral);
+  border-radius:10px;
+  padding:14px 15px;
+  margin:12px 0 16px;
+}
+.protocol-wrap,.table-wrap{
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  border:1px solid var(--line);
+  border-radius:12px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+}
+.protocol-table{min-width:780px}
+.protocol-table th{
+  background:linear-gradient(180deg,#148177 0%,#0f7169 100%);
+  color:white;
+  text-align:left;
+  padding:12px;
+}
+.protocol-table td{
+  padding:12px;
+  border-top:1px solid #d6e5e3;
+  vertical-align:middle;
+}
+.protocol-table tr:nth-child(even) td{background:#f7fbfa}
+.protocol-table th:nth-child(1),.protocol-table td:nth-child(1){width:38%}
+.protocol-table th:nth-child(2),.protocol-table td:nth-child(2){width:18%}
+.protocol-table th:nth-child(3),.protocol-table td:nth-child(3){width:18%}
+.protocol-table th:nth-child(4),.protocol-table td:nth-child(4){width:26%}
+.criterion{font-weight:700}
+.result{
+  min-height:44px;
+  padding:10px;
+  border-radius:9px;
+  background:#f3f6f8;
+  border:1px solid #dce3e7;
+  font-weight:800;
+  display:flex;
+  align-items:center;
+}
+.result.empty{font-weight:600;color:#94a1a8;font-style:italic}
+.checklist{
+  display:grid;
+  gap:9px;
+  margin:10px 0;
+}
+.checkline{
+  display:flex;
+  align-items:flex-start;
+  gap:9px;
+}
+.checkline input{width:19px;height:19px;margin-top:3px;accent-color:var(--petrol2)}
+.info-table{min-width:760px}
+.info-table th{
+  background:var(--petrol);
+  color:white;
+  padding:10px;
+  text-align:left;
+}
+.info-table td{
+  border-top:1px solid var(--line);
+  padding:10px;
+  vertical-align:top;
+}
+.note{
+  background:var(--soft);
+  border-radius:10px;
+  padding:12px 14px;
+  margin:12px 0;
+}
+.tips{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:12px 0 18px;
+}
+details{
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:#fff;
+  overflow:hidden;
+}
+summary{
+  cursor:pointer;
+  list-style:none;
+  padding:13px 14px;
+  font-weight:850;
+  color:var(--petrol);
+  background:#f8fbfb;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:48px;
+}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"＋";font-size:1.1rem}
+details[open] summary::after{content:"−"}
+.details-body{padding:13px 14px;background:var(--cream)}
+.details-body p{margin:.45rem 0}
+.script-table{min-width:820px}
+.script-table th{
+  background:var(--petrol);
+  color:white;
+  text-align:left;
+  padding:10px;
+}
+.script-table td{
+  border-top:1px solid var(--line);
+  padding:9px;
+  vertical-align:top;
+}
+.script-table th:nth-child(1){width:14%}
+.script-table th:nth-child(2){width:25%}
+.script-table th:nth-child(3){width:61%}
+.script-table input[type=number]{min-width:90px}
+.script-table textarea{min-height:88px}
+.footer-note{
+  font-size:.8rem;
+  color:var(--muted);
+  margin-top:13px;
+}
+.save-note{
+  font-size:.8rem;color:var(--muted);margin:5px 0 0;
+}
+@media(max-width:760px){
+  main{padding:10px 8px 40px}
+  .page{padding:14px;border-radius:13px;box-shadow:none}
+  .hero{padding:17px}
+  .meta{grid-template-columns:1fr}
+  .tips{grid-template-columns:1fr}
+  input,select,textarea{font-size:16px}
+}
+@media print{
+  body{background:white}
+  main{max-width:none;padding:0}
+  .page{box-shadow:none;border:0;border-radius:0;break-after:page}
+  details .details-body{display:block}
+  summary::after{display:none}
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="toplabel">PER Q2GK</div>
+
+  <!-- SEITE 1: ÜBUNGSPROTOKOLL -->
+  <section class="page">
+    <div class="hero">
+      <small>Übungsprotokoll</small>
+      <h1>Entspannung vor und nach der PMR</h1>
+    </div>
+
+    <div class="task"><strong>Arbeitsauftrag:</strong> Erfasst eure Wahrnehmung unmittelbar vor und nach dem Bodyscan. <strong>0 = trifft gar nicht zu, 10 = trifft voll zu.</strong></div>
+
+    <div class="protocol-wrap">
+      <table class="protocol-table">
+        <thead>
+          <tr>
+            <th>Kriterium</th>
+            <th>Vorher</th>
+            <th>Nachher</th>
+            <th>Durchschnitt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="criterion">1. Mein Atem ist ruhig und gleichmäßig.</td>
+            <td><select data-save="p1b"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><select data-save="p1a"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><div id="r1" class="result empty">noch nicht vollständig</div></td>
+          </tr>
+          <tr>
+            <td class="criterion">2. Meine Atemfrequenz (Atemzüge pro Minute)</td>
+            <td><input type="number" min="1" max="60" inputmode="numeric" data-save="p2b" placeholder="Atemzüge/Min."></td>
+            <td><input type="number" min="1" max="60" inputmode="numeric" data-save="p2a" placeholder="Atemzüge/Min."></td>
+            <td><div id="r2" class="result empty">noch nicht vollständig</div></td>
+          </tr>
+          <tr>
+            <td class="criterion">3. Meine Muskeln fühlen sich locker an.</td>
+            <td><select data-save="p3b"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><select data-save="p3a"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><div id="r3" class="result empty">noch nicht vollständig</div></td>
+          </tr>
+          <tr>
+            <td class="criterion">4. Meine Hände, Füße und mein Körper fühlen sich warm an.</td>
+            <td><select data-save="p4b"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><select data-save="p4a"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><div id="r4" class="result empty">noch nicht vollständig</div></td>
+          </tr>
+          <tr>
+            <td class="criterion">5. Meine Gedanken sind ruhig und gesammelt.</td>
+            <td><select data-save="p5b"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><select data-save="p5a"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><div id="r5" class="result empty">noch nicht vollständig</div></td>
+          </tr>
+          <tr>
+            <td class="criterion">6. Ich fühle mich entspannt und wohl.</td>
+            <td><select data-save="p6b"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><select data-save="p6a"><option value="">–</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></td>
+            <td><div id="r6" class="result empty">noch nicht vollständig</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- AB HIER: BODyscan-SKRIPT -->
+  <section class="page">
+    <div class="hero">
+            <h1>Deinen Bodyscan verfassen – Schritt für Schritt</h1>
+          </div>
+
+    <div class="meta" style="grid-template-columns:2fr 1fr">
+      <div><label>Namen</label><input type="text" data-save="names"></div>
+      <div><label>Datum</label><input type="text" data-save="date"></div>
+    </div>
+
+    <div class="task"><strong>Eure Aufgabe:</strong> Verfasst in der Gruppe das Skript für einen eigenen Bodyscan mit einer Ziel-Dauer von etwa <strong>13–14 Minuten</strong>. In der nächsten Stunde leitet ihr euren Bodyscan gegenseitig an und beurteilt ihn kriteriengeleitet.</div>
+
+    <h2><span class="section-title"><span class="num">1</span>Rahmen klären (vor dem Schreiben)</span></h2>
+
+    <div class="note" style="background:#fff7ec;border:1px solid #ecd9bd">
+      <label for="roles"><strong>Wer spricht? – Rollen und Abschnitte verteilen</strong></label>
+      <textarea id="roles" data-save="roles" placeholder="Notiert, wer welchen Abschnitt des Bodyscans anleitet …" style="margin-top:8px;min-height:82px"></textarea>
+    </div>
+
+    <div class="note">
+      <label for="moderation"><strong>Moderation – Einstieg und Position</strong></label>
+      <p style="margin:.4rem 0 .6rem">Plant, wie ihr eure Mitschülerinnen dazu anleitet, eine bequeme Liegeposition auf der Matte einzunehmen und in Ruhe anzukommen.</p>
+      <textarea id="moderation" data-save="moderation" placeholder="z. B. Wie fordert ihr zum Hinlegen auf? Was sagt ihr zur bequemen Position?" style="min-height:82px"></textarea>
+    </div>
+
+    <div class="note" style="background:#f8fbfb">
+      <label for="timing"><strong>Zeitmessung</strong></label>
+      <input id="timing" type="text" data-save="timing" placeholder="Wie behaltet ihr die geplante Dauer im Blick?">
+    </div>
+
+    <h2><span class="section-title"><span class="num">2</span>Die vier Bausteine eures Skripts</span></h2>
+    <div class="table-wrap">
+      <table class="info-table">
+        <thead><tr><th>Baustein</th><th>ca. Zeit</th><th>Das gehört hinein</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1 · Ankommen</strong></td><td>ca. 1 Min.</td><td>Bequeme Position erklären, Augen ggf. schließen lassen und Auflagepunkte des Körpers wahrnehmen lassen.</td></tr>
+          <tr><td><strong>2 · Anker Atem</strong></td><td>ca. 2 Min.</td><td>Die Atmung beobachten lassen – ruhig ein- und ausatmen, ohne den Atem bewusst zu verändern.</td></tr>
+          <tr><td><strong>3 · Körperreise</strong></td><td>8–9 Min.</td><td>Körperregionen nacheinander in sinnvoller Reihenfolge anleiten. Aufmerksamkeit auf Empfindungen richten und kurze Pausen lassen.</td></tr>
+          <tr><td><strong>4 · Abschluss</strong></td><td>ca. 2 Min.</td><td>Aufmerksamkeit auf den ganzen Körper weiten, sanft bewegen, Augen langsam öffnen und sich aufrichten.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><strong>Zwischenbilanz:</strong> Plant insgesamt ungefähr 13–14 Minuten. Passt bei Bedarf Pausen oder die Ausführlichkeit einzelner Regionen an.</div>
+
+    <h2><span class="section-title"><span class="num">3</span>So formuliert ihr – die Kriterien</span></h2>
+    <div class="checklist">
+      <label class="checkline"><input type="checkbox" data-save-check="k1"><span><strong>Klare Struktur & sinnvolle Reihenfolge:</strong> Körperregionen nachvollziehbar nacheinander anleiten.</span></label>
+      <label class="checkline"><input type="checkbox" data-save-check="k2"><span><strong>Fokus auf Körperwahrnehmung:</strong> Wahrnehmen und Spüren anregen, keine Leistungsaufgaben stellen.</span></label>
+      <label class="checkline"><input type="checkbox" data-save-check="k3"><span><strong>Wahrnehmen ohne Bewerten:</strong> Empfindungen beobachten lassen, ohne sie verändern zu müssen.</span></label>
+      <label class="checkline"><input type="checkbox" data-save-check="k4"><span><strong>Ruhige Stimme & angemessenes Tempo:</strong> langsam, ruhig und verständlich sprechen.</span></label>
+      <label class="checkline"><input type="checkbox" data-save-check="k5"><span><strong>Deutliche Pausen:</strong> Stille bewusst einplanen.</span></label>
+      <label class="checkline"><input type="checkbox" data-save-check="k6"><span><strong>Einstieg über die Atmung & geordneter Abschluss:</strong> Atem als Anker nutzen und die Übung sanft beenden.</span></label>
+    </div>
+
+    <div class="tips">
+      <details>
+        <summary>Satzanfänge · Einstieg</summary>
+        <div class="details-body">
+          <p>„Finde eine Position, in der du bequem liegen oder sitzen kannst …“</p>
+          <p>„Spüre zunächst, wo dein Körper die Unterlage berührt …“</p>
+          <p>„Lenke deine Aufmerksamkeit auf deinen Atem, ohne ihn bewusst zu verändern …“</p>
+        </div>
+      </details>
+      <details>
+        <summary>Satzanfänge · Körperreise</summary>
+        <div class="details-body">
+          <p>„Richte deine Aufmerksamkeit nun auf …“</p>
+          <p>„Nimm wahr, was du dort gerade spürst …“</p>
+          <p>„Wenn deine Gedanken abschweifen, kehre ruhig wieder zu dieser Körperregion zurück …“</p>
+        </div>
+      </details>
+      <details>
+        <summary>Satzanfänge · Wechsel</summary>
+        <div class="details-body">
+          <p>„Lass deine Aufmerksamkeit jetzt langsam weiterwandern zu …“</p>
+          <p>„Nimm dir einen Moment Zeit, bevor du zur nächsten Region übergehst …“</p>
+        </div>
+      </details>
+      <details>
+        <summary>Satzanfänge · Abschluss</summary>
+        <div class="details-body">
+          <p>„Weite deine Aufmerksamkeit wieder auf deinen ganzen Körper …“</p>
+          <p>„Bewege langsam deine Finger und Zehen …“</p>
+          <p>„Öffne in deinem Tempo die Augen und richte dich langsam auf …“</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="page">
+    <h2><span class="section-title"><span class="num">4</span>Euer Skript – Schreibgerüst</span></h2>
+    <div class="table-wrap">
+      <table class="script-table">
+        <thead><tr><th>Zeit (Min.)</th><th>Region / Baustein</th><th>Eure Worte – wörtliches Skript</th></tr></thead>
+        <tbody>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t1"></td><td>Ankommen</td><td><textarea data-save="s1"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t2"></td><td>Anker Atem</td><td><textarea data-save="s2"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t3"></td><td>Füße</td><td><textarea data-save="s3"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t4"></td><td>Unterschenkel & Knie</td><td><textarea data-save="s4"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t5"></td><td>Oberschenkel & Hüfte</td><td><textarea data-save="s5"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t6"></td><td>Bauch & Rücken</td><td><textarea data-save="s6"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t7"></td><td>Arme & Hände</td><td><textarea data-save="s7"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t8"></td><td>Schultern & Nacken</td><td><textarea data-save="s8"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t9"></td><td>Gesicht & Kopf</td><td><textarea data-save="s9"></textarea></td></tr>
+          <tr><td><input type="number" min="0" step="0.5" data-save="t10"></td><td>Abschluss</td><td><textarea data-save="s10"></textarea></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2><span class="section-title"><span class="num">5</span>Check vor der Abgabe</span></h2>
+    <div class="checklist">
+      <label class="checkline"><input type="checkbox" data-save-check="a1">Gesamtdauer auf ungefähr 13–14 Minuten geplant.</label>
+      <label class="checkline"><input type="checkbox" data-save-check="a2">Alle Körperregionen mindestens einmal angesprochen und logisch geordnet.</label>
+      <label class="checkline"><input type="checkbox" data-save-check="a3">Pausen eingeplant und im Skript markiert.</label>
+      <label class="checkline"><input type="checkbox" data-save-check="a4">Ein geordneter Abschluss ist vorhanden.</label>
+    </div>
+
+    <div class="footer-note">Die Kriterien orientieren sich am Fachtext zu Wirkungsweise und Anwendungsbedingungen des Bodyscans: Dauer und Ablauf, Aufmerksamkeit auf Körperbereiche, erforderliche Rahmenbedingungen, mögliche Wirkungen auf Körperwahrnehmung und Anspannung sowie Grenzen des Verfahrens.</div>
+    <div class="save-note">Eingaben werden – sofern der Browser es zulässt – lokal auf dem Gerät gespeichert.</div>
+  </section>
+</main>
+
+<script>
+(function(){
+  const prefix="bodyscan_script_q2gk_";
+  function get(k){try{return localStorage.getItem(prefix+k)}catch(e){return null}}
+  function set(k,v){try{localStorage.setItem(prefix+k,v)}catch(e){}}
+
+  document.querySelectorAll("[data-save]").forEach(el=>{
+    const old=get(el.dataset.save);
+    if(old!==null) el.value=old;
+    ["input","change","blur"].forEach(evt=>el.addEventListener(evt,()=>set(el.dataset.save,el.value)));
+  });
+
+  document.querySelectorAll("[data-save-check]").forEach(el=>{
+    const old=get(el.dataset.saveCheck);
+    if(old!==null) el.checked=(old==="1");
+    el.addEventListener("change",()=>set(el.dataset.saveCheck,el.checked?"1":"0"));
+  });
+
+  const rows=[
+    ["p1b","p1a","r1",""],
+    ["p2b","p2a","r2"," Atemzüge/Min."],
+    ["p3b","p3a","r3",""],
+    ["p4b","p4a","r4",""],
+    ["p5b","p5a","r5",""],
+    ["p6b","p6a","r6",""]
+  ];
+  function fmt(n){return Number.isInteger(n)?String(n):n.toFixed(1).replace(".",",")}
+  function update(bk,ak,rid,unit){
+    const b=document.querySelector('[data-save="'+bk+'"]');
+    const a=document.querySelector('[data-save="'+ak+'"]');
+    const r=document.getElementById(rid);
+    if(!b||!a||!r)return;
+    if(b.value===""||a.value===""){
+      r.textContent="noch nicht vollständig";
+      r.classList.add("empty");
+      return;
+    }
+    const bv=Number(b.value), av=Number(a.value);
+    if(!Number.isFinite(bv)||!Number.isFinite(av))return;
+    r.textContent=fmt((bv+av)/2)+unit;
+    r.classList.remove("empty");
+  }
+  rows.forEach(row=>{
+    const [bk,ak,rid,unit]=row;
+    const b=document.querySelector('[data-save="'+bk+'"]');
+    const a=document.querySelector('[data-save="'+ak+'"]');
+    [b,a].forEach(el=>{
+      if(!el)return;
+      ["input","change","blur"].forEach(evt=>el.addEventListener(evt,()=>update(bk,ak,rid,unit)));
+    });
+    update(bk,ak,rid,unit);
+  });
+})();
+</script>
+</body>
+</html>
